@@ -1,5 +1,14 @@
 ﻿using MongoDB.Driver;
 
+void ImprimirUsuarios(List<User> lista)
+{
+    foreach (User u in lista)
+    {
+        Console.WriteLine(u);
+        Console.WriteLine("- - -");
+    }
+}
+
 var client = new MongoClient("mongodb+srv://krysthiang_db_user:2SrPPyQ9hDbfbBFJ@interacaomongo.c0dlrc6.mongodb.net/");
 
 var database = client.GetDatabase("InterAcaoMongoDB");
@@ -9,11 +18,20 @@ var collection = database.GetCollection<User>("Usuarios");
 var usuario = new User("Krysthian", "123@mudar");
 collection.InsertOne(usuario);
 
-var usuariosNovos = new List<User>();
+*/
 
-usuariosNovos.Add(new User("Marcio", "123senhamarcio"));
-usuariosNovos.Add(new User("Gabriel", "123senhagabriel"));
-usuariosNovos.Add(new User("Wayne", "123senhawayne"));
+var usuariosNovos = await collection.FindAsync(_ => _.isActive == true).Result.ToListAsync();
+
+ImprimirUsuarios(usuariosNovos);
+/*
+
+for(int i = 0; i < 1000; i++)
+{
+    usuariosNovos.Add(new User("Marcio", "123senhamarcio"));
+    usuariosNovos.Add(new User("Gabriel", "123senhagabriel"));
+    usuariosNovos.Add(new User("Wayne", "123senhawayne"));
+}
+
 
 collection.InsertMany(usuariosNovos);
 
@@ -41,19 +59,6 @@ Console.WriteLine(usuario);
 
 Console.WriteLine(collection.Find(_ => _.Id == "691739971a2ead4a14bb4fe3").FirstOrDefault());
 
-*/
-
-
-
-void ImprimirUsuarios(List<User> lista)
-{
-    foreach (User u in lista)
-    {
-        Console.WriteLine(u);
-        Console.WriteLine("- - -");
-    }
-}
-
 collection.UpdateOne(
     _ => _.Id == "691739971a2ead4a14bb4fe3",
 
@@ -80,3 +85,11 @@ collection.UpdateMany(
 usuarios = collection.Find(_ => true).ToList();
 
 ImprimirUsuarios(usuarios);
+
+
+collection.DeleteOne(_ => _.Login == "Marcio");
+
+var usuarios = collection.Find(_ => true).ToList();
+
+ImprimirUsuarios(usuarios);
+*/
