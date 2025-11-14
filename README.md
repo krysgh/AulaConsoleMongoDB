@@ -1,3 +1,3 @@
 # ConsoleMongoDB
 
-Algumas operações iniciais com usuários utilizando o MongoDB
+Algumas operações iniciais com usuários utilizando o MongoDB.
